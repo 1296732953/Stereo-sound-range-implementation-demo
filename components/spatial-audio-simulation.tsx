@@ -5,11 +5,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, RotateCcw } from "lucide-react";
 
-interface SliderValue {
-  value: number[];
-  onValueChange: (value: number[]) => void;
-}
-
 const SpatialAudioSimulation = () => {
   const [sourceAngle, setSourceAngle] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -30,7 +25,11 @@ const SpatialAudioSimulation = () => {
   const [merger, setMerger] = useState<ChannelMergerNode | null>(null);
 
   const initAudio = async () => {
-    const audio = new Audio("/demo-music.mp3");
+    const audio = new Audio(
+      process.env.NODE_ENV === 'production'
+        ? "/Stereo-sound-range-implementation/demo-music.mp3"
+        : "/demo-music.mp3"
+    );
     audio.loop = true;
 
     const context = new AudioContext();
